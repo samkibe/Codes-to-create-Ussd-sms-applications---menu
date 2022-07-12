@@ -24,7 +24,7 @@
 
       public function registerMenu($textArray){
              $level = count($textArray);
-             if($level == 0){
+             if($level == 1){
                 echo "CON Please enter your full name:";
              }else if($level == 2){
                 echo "CON Please enter your PIN:";
