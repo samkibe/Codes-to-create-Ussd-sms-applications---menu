@@ -30,9 +30,36 @@ if ($text == "" &&  !$isRegistered) {
 
      }else if($isRegistered) {
     //user unregisered , string not empty
-
+         $textArray = explode("*", text);
+         swwitch($textArray[0]){
+            case 1:
+              $menu->registerMenu($textArray);
+              break;
+              default:
+               echo "END Invalid choice. Please try again";
+          
+         }
        }else{
      //user registered , string not empty
+
+     $textArray = explode("*", text);
+     swwitch($textArray[0]){
+        case 1:
+          $menu->sendMoneyMenu($textArray);
+           break;
+           case 2:
+            $menu->WithdrawMoneyMenu($textArray);
+             break;  
+             case 3:
+              $menu->checkBalanceMenu($textArray);
+             break;  
+             default:
+             echo "END Invalid choice. Please try again";
+
+        
+
+
+           }
 
 }
 
