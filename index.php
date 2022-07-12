@@ -9,11 +9,27 @@ $text        = $_POST["text"];
 
 $isRegistered = false;
 
-if ($text == "") {
+if ($text == "" &&  !$isRegistered) {
+ //user registered , string empty
+
     // This is the first request. Note how we start the response with CON
     $response  = "CON What would you want to check \n";
     $response .= "1. My Account \n";
     $response .= "2. My Mobile number";
+
+}else if($text == "" && $isRegistered){
+//user unregistered , string empty
+
+
+}else if($isRegistered){
+    //user unregisered , string not empty
+
+}else{
+//user registered , string not empty
+
+}
+
+
 
 
 ?>
