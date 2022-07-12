@@ -1,6 +1,6 @@
 <?php 
 
-// https://6ef7-102-219-208-34.in.ngrok.io/ussdsms/index.php
+//  https://2ab9-102-219-208-34.in.ngrok.io/ussdsms/Codes-to-create-Ussd-sms-applications---menu/index.php
 
 include_once 'menu.php';
 
@@ -10,21 +10,25 @@ $serviceCode = $_POST["serviceCode"];
 $phoneNumber = $_POST["phoneNumber"];
 $text        = $_POST["text"];
 
+$isRegistered = true;
 $isRegistered = false;
+
+$menu = new Menu($text, $sessionId);
 
 if ($text == "" &&  !$isRegistered) {
       //user registered , string empty
 
-    // This is the first request. Note how we start the response with CON
-    //$response  = "CON What would you want to check \n";
-    //$response .= "1. My Account \n";
-    //$response .= "2. My Mobile number";
+      $menu->mainMenuUnRegistered();
 
-     }else if($text == "" && $isRegistered){
+    // This is the first request. Note how we start the response with CON
+   
+
+     }else if($text == "" && $isRegistered) {
       //user unregistered , string empty
 
+        $menu->mainMenuRegistered();
 
-     }else if($isRegistered){
+     }else if($isRegistered) {
     //user unregisered , string not empty
 
        }else{
