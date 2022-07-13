@@ -10,27 +10,18 @@ $serviceCode = $_POST["serviceCode"];
 $phoneNumber = $_POST["phoneNumber"];
 $text        = $_POST["text"];
 
-//$isRegistered = true;
-$isRegistered = false;
-
+$isRegistered = true;
+//$isRegistered = false;
 $menu = new Menu($text, $sessionId);
-
-if ($text == "" &&  !$isRegistered) {
+if ($text == "" &&  $isRegistered) {
       //user registered , string empty
-
-      $menu->mainMenuUnRegistered();
-
-    // This is the first request. Note how we start the response with CON
-   
-
-     }else if($text == "" && $isRegistered) {
+      $menu->mainMenuRegistered();
+     }else if($text == "" && !$isRegistered) {
       //user unregistered , string empty
-
-        $menu->mainMenuRegistered();
-
-     }else if($isRegistered) {
+        $menu->mainMenuUnRegistered();
+     }else if(!$isRegistered) {
     //user unregisered , string not empty
-         $textArray = explode("*", text);
+         $textArray = explode("*", $text);
          switch($textArray[0]){
             case 1:
               $menu->registerMenu($textArray);
@@ -41,7 +32,7 @@ if ($text == "" &&  !$isRegistered) {
            }else{
              //user registered , string not empty
 
-            $textArray = explode("*", 'text');
+            $textArray = explode("*", $text);
              switch($textArray[0]){
              case 1:
              $menu->sendMoneyMenu($textArray);

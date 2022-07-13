@@ -30,7 +30,7 @@
                 }else if($level == 2){
                 echo "CON Please enter your PIN:";
                 }else if($level == 3){
-                echo "Please Re-enter your PIN:";
+                echo "CON Please Re-enter your PIN:";
                 }else if($level== 4){
                 $name = $textArray[1];
                 $pin = $textArray[2];
@@ -54,7 +54,7 @@
         }else if($level == 3){
             echo "CON Enter your PIN:";
         }else if($level == 4){
-            $response = "CON Send " . $textArray[2] . " " . $textArray[1] . " \n";
+            $response = "CON Send " . $textArray[2] . " to " . $textArray[1] . " \n";
             $response.= "1. Confirm\n";
             $response.= "2. Cancel\n";
             $response.= Util::$GO_BACK . " Back\n";
@@ -80,9 +80,40 @@
 
       }
 
-      public function withdrawMoneyMenu($textArray){}
+      public function withdrawMoneyMenu($textArray){
+        $level = count($textArray); 
+        if($level == 1){
+            echo "CON Enter agent number:";
+        }else if($level == 2){
+            echo "CON Enter amount:";
+        }else if($level == 3){
+            echo "CON Enter your PIN:";
+        }else if($level == 4){
+       echo "CON Withdraw" . $textArray[2] . " from agent " . $textArray[1] . "\n 1. Confirm\n 2. Cancel\n";
+        }else if($level == 5 && $textArray[4] == 1){
+           //confirm
+           //if sufficient funds
+           //if PIN correct
+           echo "END  Your request is being processed";
+        }else if($level == 5 && $textArray[4] == 2){
+            echo "END Thank you";
+        }else{
+            echo "END Invalid Entry";
+        }
+      }
 
-      public function checkBalanceMenu($textArray){}
+      public function checkBalanceMenu($textArray){
+        $level = count($textArray); 
+        if($level == 1){
+            echo "CON Enter PIN";
+        }else if($level == 2){
+            //logic
+            //check if PIN is correct etc
+            echo "END We are processing your request and you wil reeive an sms shortly";
+        }else{
+            echo "END Invalid entry";
+        }
+      }
 
    }
    
