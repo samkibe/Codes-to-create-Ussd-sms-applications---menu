@@ -11,8 +11,11 @@ $phoneNumber = $_POST["phoneNumber"];
 $text        = $_POST["text"];
 
 $isRegistered = true;
+$menu = new Menu();
+$text = $menu->middleware($text);
 //$isRegistered = false;
-$menu = new Menu($text, $sessionId);
+//$menu = new Menu($text, $sessionId);  // adjusted after system was working fine
+
 if ($text == "" &&  $isRegistered) {
       //user registered , string empty
       $menu->mainMenuRegistered();
