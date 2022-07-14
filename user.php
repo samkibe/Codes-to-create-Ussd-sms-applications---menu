@@ -80,25 +80,25 @@
     }
 
      public function correctPin($pdo){
-    //    $stmt = $pdo->prepare("select pin from user where phone=?");
-    ///    $stmt->execute([$this->getPhone()]);
-    //    $row = $stmt->fetch();
-    //    if($row == null){
-    //        return false;
-       // }
+        $stmt = $pdo->prepare("select pin from user where phone=?");
+        $stmt->execute([$this->getPhone()]);
+        $row = $stmt->fetch();
+        if($row == null){
+            return false;
+        }
 
-    //    if(password_verify($this->getPin(),$row['pin'])){
-   //         return true;
-    //    }
+        if(password_verify($this->getPin(),$row['pin'])){
+            return true;
+       }
 
-   //     return false;
+            return false;
      }
 
      public function checkBalance($pdo){
-    //     $stmt = $pdo->prepare("select balance from user where phone=?");
-     //    $stmt->execute([$this->getPhone()]);
-     //    $row = $stmt->fetch();
-    //     return $row['balance'];
+         $stmt = $pdo->prepare("select balance from user where phone=?");
+        $stmt->execute([$this->getPhone()]);
+         $row = $stmt->fetch();
+         return $row['balance'];
      }
 
  }
