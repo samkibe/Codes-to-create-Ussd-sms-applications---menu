@@ -1,12 +1,11 @@
 <?php
    class Util{
        //Db variables
-<<<<<<< HEAD
        static $DB_NAME = "ussdsms";
-=======
-       static $DB_NAME = "ussd";
+
+     //static $DB_NAME = "ussd";
       //It is okay to use your own values here. for user,pass and,server name
->>>>>>> e09509ac9453c909490bc91c9344b5b4fba72501
+
        static $DB_USER = "root";
        static $DB_USER_PASS = "K1b8ish??";
        static $DB_SERVER_NAME = "localhost";

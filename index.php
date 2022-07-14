@@ -18,7 +18,7 @@ $db = new DBConnector();
 $pdo = $db->connectToDB();
 
 $menu = new Menu();
-$text = $menu->middleware($text);
+$text = $menu->middleware($text, $user, $sessionId, $pdo);
 //$isRegistered = false;
 //$menu = new Menu($text, $sessionId);  // adjusted after system was working fine
 
@@ -53,9 +53,9 @@ if($text == "" && $user->isUserRegistered($pdo) == true){
                  $menu->checkBalanceMenu($textArray);
                  break;  
                  default:
-                 $ussdLevel = count($textArray) - 1;
-                 $menu->persistInvalidEntry($sessionId, $user, $ussdLevel, $pdo);
-                echo "CON Invalid menu\n" . $menu->mainMenuRegistered($user->readName($pdo));
+                   $ussdLevel = count($textArray) - 1;
+                    $menu->persistInvalidEntry($sessionId, $user, $ussdLevel, $pdo);
+                      echo "CON Invalid menu\n" . $menu->mainMenuRegistered($user->readName($pdo));
 
            }
 

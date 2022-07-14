@@ -130,9 +130,11 @@
         }
       }
 
-      public function middleware($text){
+      public function middleware($text, $user, $sessionId, $pdo){
         //remove entrie forgoing back and going to the main menu
-        return $this->goBack($this->goToMainMenu($text));
+        //return $this->goBack($this->goToMainMenu($text));
+
+         return $this->invalidEntry($this->goBack($this->goToMainMenu($text)), $user, $sessionId, $pdo);
       }
 
       public function goBack($text){
