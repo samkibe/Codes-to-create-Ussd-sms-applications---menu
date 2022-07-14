@@ -73,10 +73,10 @@
     }
 
      public function readUserId($pdo){
-      //  $stmt = $pdo->prepare("SELECT uid FROM user where phone=?");
-      //  $stmt->execute([$this->getPhone()]);
-      //  $row = $stmt->fetch();
-      //  return $row['uid'];
+        $stmt = $pdo->prepare("SELECT uid FROM user where phone=?");
+        $stmt->execute([$this->getPhone()]);
+        $row = $stmt->fetch();
+        return $row['uid'];
     }
 
      public function correctPin($pdo){

@@ -163,6 +163,33 @@
         $stmt->execute([$sessionId, $ussdLevel, $user->readUserId($pdo)]);
         $stmt= null;
        }
+       public function invalidEntry($ussdStr, $user, $sessionId, $pdo){
+        $stmt = $pdo->prepare("select ussdLevel from ussdsession where sessionId=?");
+        $stmt->execute([$sessionId]);
+        $result = $stmt->fetchAll();
+
+        if(count($result) == 0){
+            return $ussdStr;
+        }
+
+        $strArray = explode("*", $ussdStr);
+
+        foreach ($result as $value){
+            unset($strArray[$value['ussdLevel']]);
+        }
+
+        $strArray = array_values($strArray);
+
+        return join("*", $strArray);
+    }
+    
+   // public function addCountryCodeToPhoneNumber($phone){
+   //     return Util::$COUNTRY_CODE . substr($phone, 1);
+   // }
+
+
+
+
 
    }
    
