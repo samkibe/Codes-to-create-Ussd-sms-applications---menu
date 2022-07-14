@@ -16,8 +16,8 @@
 
        //user initial balance
        static $USER_BALANCE = 40000;
+       static $COUNTRY_CODE = "+254";
+       static $TRANSACTION_FEE = 50;
    }
-
-
 
 ?>

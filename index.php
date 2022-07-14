@@ -22,29 +22,32 @@ $text = $menu->middleware($text, $user, $sessionId, $pdo);
 //$isRegistered = false;
 //$menu = new Menu($text, $sessionId);  // adjusted after system was working fine
 
-if($text == "" && $user->isUserRegistered($pdo) == true){
-      //user registered , string empty
-    echo "CON" . $menu->mainMenuRegistered($user->readName($pdo));
-     }else if($text == "" && $user->isUserRegistered($pdo) == false) {
-      //user unregistered , string empty
-        $menu->mainMenuUnRegistered();
-     }else if($user->isUserRegistered($pdo) == false){
-    //user unregisered , string not empty
-         $textArray = explode("*", $text);
-         switch($textArray[0]){
-            case 1:
-              $menu->registerMenu($textArray, $phoneNumber, $pdo);
-              break;
-              default:
-               echo "END Invalid choice. Please try again";
-            }
+
+if($text == "" && $user->isUserRegistered($pdo) == true) {
+  //user is registered and string is is empty
+ echo "CON " . $menu->mainMenuRegistered($user->readName($pdo));
+}else if($text == "" && $user->isUserRegistered($pdo) == false) {
+  //user is unregistered and string is is empty
+  $menu->mainMenuUnRegistered();
+
+}else if($user->isUserRegistered($pdo) == false) {
+ //user is unregistered and string is not empty
+ $textArray = explode("*", $text);
+ switch($textArray[0]){
+     case 1: 
+         $menu->registerMenu($textArray, $phoneNumber, $pdo);
+     break;
+     default:
+         echo "END Invalid choice. Please try again";
+ }
+
            }else{
              //user registered , string not empty
 
             $textArray = explode("*", $text);
              switch($textArray[0]){
              case 1:
-             $menu->sendMoneyMenu($textArray);
+             $menu->sendMoneyMenu($textArray, $user, $pdo, $sessionId);
               break;
                case 2:
                $menu->WithdrawMoneyMenu($textArray);

@@ -2,6 +2,7 @@
   include_once 'util.php';
   include_once 'user.php';
   include_once 'util.php';
+  include_once 'Transactions.php';
 
    class Menu{
       protected $text;
@@ -32,36 +33,37 @@
             echo $response;
       }
 
-      public function registerMenu($textArray, $phoneNumber, $pdo){
-             $level = count($textArray);
-             if($level == 1){
-               echo "CON Please enter your full name:";
-                }else if($level == 2){
-                echo "CON Please enter your PIN:";
-                }else if($level == 3){
-                echo "CON Please Re-enter your PIN:";
-                }else if($level== 4){
-                $name = $textArray[1];
-                $pin = $textArray[2];
-                 $confirmPin = $textArray[3];
-                  if($pin !=$confirmPin){
-                  echo "END OOPS Your pins do not match. Please try again";
-                  }else{
-              //we can register user
-              //send sms
-
-              $user = new User($phoneNumber);
-              $user->setName($name);
-              $user->setPin($pin);
-              $user->setBalance(Util::$USER_BALANCE);
-              $user->register($pdo);
-                  echo "END You have been registered";
+      
+      public function registerMenu($textArray, $phoneNumber, $pdo) {
+        $level = count($textArray);
+        if($level == 1){
+             echo "CON Please enter your full name:";
+        } else if($level == 2){
+             echo "CON Please enter set you PIN:";
+        }else if($level == 3){
+             echo "CON Please re-enter your PIN:";
+        }else if($level == 4){
+             $name = $textArray[1];
+             $pin = $textArray[2];
+             $confirmPin = $textArray[3];
+             if($pin != $confirmPin){
+                 echo "END OOOPS Your pins do not match. Please try again";
+             }else{
+                 $user = new User($phoneNumber);
+                 $user->setName($name);
+                 $user->setPin($pin);
+                 $user->setBalance(Util::$USER_BALANCE);
+                 $user->register($pdo);
+                 echo "END You have been registered";
              }
-            }
-      }
+        }
+     }
 
-      public function sendMoneyMenu($textArray){
+      public function sendMoneyMenu($textArray, $sender, $pdo, $sessionId) {
         $level = count($textArray); 
+        $receiver = null;
+        $nameOfReceiver = null;
+        $response = "";
         if($level == 1){
             echo "CON Enter mobile number of the receiver:";
         }else if($level == 2){
@@ -69,18 +71,46 @@
         }else if($level == 3){
             echo "CON Enter your PIN:";
         }else if($level == 4){
-            $response = "CON Send " . $textArray[2] . " to " . $textArray[1] . " \n";
+            $receiverMobile = $textArray[1];
+            $receiverMobileWithCountryCode = $this->addCountryCodeToPhoneNumber($receiverMobile);
+            $receiver = new User($receiverMobileWithCountryCode);
+            $nameOfReceiver = $receiver->readName($pdo);
+            $response .= "Send " . $textArray[2] . " to " . $nameOfReceiver  . " - " . $receiverMobile . "\n";
             $response.= "1. Confirm\n";
             $response.= "2. Cancel\n";
             $response.= Util::$GO_BACK . " Back\n";
             $response.= Util::$GO_TO_MAIN_MENU . " Main menu\n";
-            echo $response;
+            echo "CON" . $response;
         }else if($level == 5 && $textArray[4] == 1){
             //a confirm
             //send the money plus process
             //check if PIN is correct
             //Sufficient funds
-            echo "END Your request is being processed";;
+            //echo "END Your request is being processed";;
+            $pin = $textArray[3];
+            $amount = $textArray[2];
+            $ttype = "send";
+            $sender->setPin($pin);
+            $newSenderBalance = $sender->checkBalance($pdo) - $amount - Util::$TRANSACTION_FEE;
+            $receiver = new User($this->addCountryCodeToPhoneNumber($textArray[1]));
+            $newReceiverBalance = $receiver->checkBalance($pdo) + $amount;
+
+            
+            if($sender->correctPin($pdo) == false){
+                echo "END Wrong PIN";
+                //send sms as well
+            }else{
+                $txn = new Transaction($amount,$ttype);
+                $result = $txn->sendMoney($pdo,$sender->readUserId($pdo),$receiver->readUserId($pdo), $newSenderBalance,$newReceiverBalance);
+                if($receiver == true){
+                    echo "END We are processing your request. You will receive an SMS shortly";
+                    //send an sms as well
+                }else{
+                    echo "CON " . $result;
+                }
+            }
+
+        
         }else if($level == 5 && $textArray[4] == 2){
             //cancel
             echo "END Thank you for using our services";
@@ -185,9 +215,9 @@
         return join("*", $strArray);
     }
     
-   // public function addCountryCodeToPhoneNumber($phone){
-   //     return Util::$COUNTRY_CODE . substr($phone, 1);
-   // }
+    public function addCountryCodeToPhoneNumber($phone){
+           return Util::$COUNTRY_CODE . substr($phone, 1);
+    }
 
 
 
