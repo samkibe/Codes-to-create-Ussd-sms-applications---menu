@@ -1,5 +1,8 @@
 <?php
   include_once 'util.php';
+  include_once 'user.php';
+  include_once 'util.php';
+
    class Menu{
       protected $text;
       protected $sessionId;
@@ -15,12 +18,12 @@
       //}    // adjusted
 
 
-      public function mainMenuRegistered(){
-           $response = "CON Reply with\n";
+      public function mainMenuRegistered($name){
+           $response = " Welcome " . $name . " Reply with\n";
            $response .= "1. Send Money\n";
            $response .= "2. Withdraw\n";
            $response .= "3. Check balance\n";
-           echo $response;
+           return $response;
       }
 
       public function mainMenuUnRegistered(){
@@ -29,7 +32,7 @@
             echo $response;
       }
 
-      public function registerMenu($textArray){
+      public function registerMenu($textArray, $phoneNumber, $pdo){
              $level = count($textArray);
              if($level == 1){
                echo "CON Please enter your full name:";
@@ -46,6 +49,12 @@
                   }else{
               //we can register user
               //send sms
+
+              $user = new User($phoneNumber);
+              $user->setName($name);
+              $user->setPin($pin);
+              $user->setBalance(Util::$USER_BALANCE);
+              $user->register($pdo);
                   echo "END You have been registered";
              }
             }
@@ -147,6 +156,12 @@
           }
 
           return join("*", $explodedText);
+       }
+ 
+       public function persistInvalidEntry($sessionId, $user, $ussdLevel, $pdo){
+        $stmt = $pdo->prepare("insert into ussdsession (sessionId,ussdLevel, uid) values (?,?,?)");
+        $stmt->execute([$sessionId, $ussdLevel, $user->readUserId($pdo)]);
+        $stmt= null;
        }
 
    }

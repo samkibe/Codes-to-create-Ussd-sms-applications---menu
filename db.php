@@ -3,7 +3,7 @@
    class DBConnector {
      var $pdo;
      function __construct(){
-        $dsn = "msql:host=" . Util::$SERVER_NAME . ";dbname" . Util::$DB_NAME ."";
+        $dsn = "mysql:host=" . Util::$DB_SERVER_NAME . ";dbname=" . Util::$DB_NAME ."";
         $options = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_EMULATE_PREPARES => false,
@@ -12,7 +12,7 @@
         try{
 
              $this->pdo = new PDO($dsn, Util::$DB_USER, Util::$DB_USER_PASS, $options);
-             echo "DB connection success";
+          //   echo "DB connection success";
         }catch (PDOException $e){
                echo $e->getMessage();
         }
