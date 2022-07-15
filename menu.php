@@ -3,7 +3,7 @@
     include_once 'user.php';
     include_once 'util.php';
     include_once 'transactions.php';
-  //  include_once 'agent.php';
+    include_once 'agent.php';
    // include_once 'sms.php';
     class Menu{
         protected $text;
