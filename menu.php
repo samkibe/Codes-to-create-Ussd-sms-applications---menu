@@ -165,7 +165,7 @@
                 //$pin = $textArray[1];
                 $user->setPin($textArray[1]);
                 if($user->correctPin($pdo) == true){
-                    echo "End Your wallet balance is " . $user->checkBalance($pdo);
+                    echo "END Your wallet balance is " . $user->checkBalance($pdo);
 
                  //   $msg =  "Your wallet balance is " . $user->checkBalance($pdo) . ". Thank you for using this service"; //send an sms
                  //   $sms = new Sms($user->getPhone());
