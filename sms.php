@@ -20,17 +20,19 @@
             return $this->phone;
         }
 
-        public function sendSMS($message){
+        public function sendSMS($message, $recipients){
             //get the sms service
             $sms = $this->AT->sms();
             //use the service 
             $result = $sms->send ([
-              
-                // 'to'      => $recipients,
-                'to' => $this->getPhone(),
-                'message' => $message,
-                'from'    => Util::$COMPANY_NAME
+               
+               
+                // 'to' => $this->getPhone(),
 
+                'to'      => $recipients,
+                'message' => $message,
+                'from'    => Util::$SMS_SHORTCODE
+               //'from'    => Util::$COMPANY_NAME
             ]);
             return $result;
         }
