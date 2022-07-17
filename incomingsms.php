@@ -19,5 +19,5 @@
 
        $user->register($pdo);
 
-      //Register user via sms
+      //Register user via sms - through africa's talking
 ?>
