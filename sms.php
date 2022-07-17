@@ -20,12 +20,14 @@
             return $this->phone;
         }
 
-        public function sendSMS($message, $recipients){
+        public function sendSMS($message){
             //get the sms service
             $sms = $this->AT->sms();
             //use the service 
-            $result = $sms->send([
-                'to'      => $recipients,
+            $result = $sms->send ([
+              
+                // 'to'      => $recipients,
+                'to' => $this->getPhone(),
                 'message' => $message,
                 'from'    => Util::$COMPANY_NAME
 
