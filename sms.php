@@ -27,8 +27,8 @@
             $result = $sms->send([
                 'to'      => $recipients,
                 'message' => $message,
-                'from'    => Util::$SMS_SHORTCODE,
-                'keyword' => Util::$SMS_SHORTCODE_KEYWORD
+                'from'    => Util::$COMPANY_NAME
+
             ]);
             return $result;
         }

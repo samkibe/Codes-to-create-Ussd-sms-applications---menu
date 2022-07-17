@@ -4,7 +4,7 @@
     include_once 'util.php';
     include_once 'transactions.php';
     include_once 'agent.php';
-   // include_once 'sms.php';
+    include_once 'sms.php';
     class Menu{
         protected $text;
         protected $sessionId;
@@ -165,24 +165,27 @@
                 //$pin = $textArray[1];
                 $user->setPin($textArray[1]);
                 if($user->correctPin($pdo) == true){
-                    echo "END Your wallet balance is " . $user->checkBalance($pdo);
+                  //  echo "END Your wallet balance is " . $user->checkBalance($pdo);
+                 //  echo "END Your wallet balance is " . $user->checkBalance($pdo) . ". And You will receive an SMS with these details shortly"; 
 
-                 //   $msg =  "Your wallet balance is " . $user->checkBalance($pdo) . ". Thank you for using this service"; //send an sms
-                 //   $sms = new Sms($user->getPhone());
-                 //   $result = $sms->sendSMS($msg,$user->getPhone());
+                  $msg =  "Your wallet balance is " . $user->checkBalance($pdo) . ". Thank you for using this service";//send an sms
+                  $sms = new Sms($user->getPhone());
+                  $result = $sms->sendSMS($msg, $user->getPhone());
 
-             //         echo "END You will receive an SMS shortly"; // send sms
-                 //   }else {
-               //         echo "END There was an error. Please try again"; 
-              //      }
-                }else{
-                    echo "END Wrong PIN";// send sms
-                }
-                
-            }else {
-                echo "END Invalid entry";
-            }
-        }
+                  if($result['status'] == "Success") //|| $result['status'] == "success") {
+                    //  echo "END You will receive an SMS shortly"; 
+                     echo "END Your wallet balance is " . $user->checkBalance($pdo) . ". And You will receive an SMS with these details shortly"; 
+                  }else {
+                      echo "END There was an error. Please try again"; 
+                  }
+              }else{
+                  echo "END Wrong PIN";// send sms
+              }
+              
+        //  }else{
+         //     echo "END Invalid entry";
+        //  }
+      }
 
         public function middleware($text, $user, $sessionId, $pdo){
             //remove entries for going back and going to the main menu
