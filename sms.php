@@ -5,7 +5,6 @@
     include_once 'util.php';
     include_once 'db.php';
 
-
     class Sms {
         protected $phone;
         protected $AT;

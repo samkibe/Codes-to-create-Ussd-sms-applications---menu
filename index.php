@@ -31,7 +31,7 @@
         $textArray = explode("*", $text);
         switch($textArray[0]){
             case 1: 
-                $menu->registerMenu($textArray, $phoneNumber,$pdo);
+                $menu->registerMenu($textArray, $phoneNumber,$pdo); 
             break;
             default:
                 echo "END Invalid choice. Please try again";
@@ -56,6 +56,8 @@
         }
     }
 
-    
+    // All rights reserved MIT License date 23/7/2022
+
+// Copyright (c) 2022 Kibe_ish
 
 ?>
